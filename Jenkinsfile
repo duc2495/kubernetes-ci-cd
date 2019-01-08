@@ -9,7 +9,7 @@ node {
     tag = readFile('commit-id').replace("\n", "").replace("\r", "")
     appName = "hello-kenzan"
     registryHost = "192.168.137.185:30500/"
-    imageName = "${registryHost}${appName}:${tag}"
+    imageName = "duc2495/jenkins-slave"
     env.BUILDIMG=imageName
 
     stage "Build"
@@ -22,6 +22,6 @@ node {
 
     stage "Deploy"
 
-        sh "sed 's#192.168.137.185:30500/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
+        sh "sed 's#duc2495/jenkins-slave#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
         sh "kubectl rollout status deployment/hello-kenzan"
 }
